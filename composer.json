@@ -1,0 +1,86 @@
+{
+    "name": "surrealdb/laravel",
+    "description": "Laravel integration for the SurrealDB PHP SDK and Surqlize ORM.",
+    "type": "library",
+    "license": "Apache-2.0",
+    "keywords": [
+        "surrealdb",
+        "laravel",
+        "surqlize",
+        "orm",
+        "database"
+    ],
+    "require": {
+        "php": ">=8.4",
+        "illuminate/console": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "surqlize/surqlize": "dev-main"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.5 || ^12.0 || ^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SurrealDB\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SurrealDB\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../surqlize.php",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../surrealdb.php",
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "surrealdb/surrealdb.php": "2.0.0-alpha.0"
+                }
+            }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/surrealdb/surrealdb.php"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M",
+        "check": [
+            "@analyse",
+            "@test"
+        ],
+        "test": "vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SurrealDB\\Laravel\\SurrealDBServiceProvider",
+                "SurrealDB\\Laravel\\SurqlizeServiceProvider"
+            ],
+            "aliases": {
+                "SurrealDB": "SurrealDB\\Laravel\\Facades\\SurrealDB",
+                "Surreal": "SurrealDB\\Laravel\\Facades\\Surreal",
+                "Surqlize": "SurrealDB\\Laravel\\Facades\\Surqlize"
+            }
+        }
+    }
+}
