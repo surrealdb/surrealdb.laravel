@@ -1,0 +1,97 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  COMPOSER_ROOT_VERSION: dev-main
+
+defaults:
+  run:
+    working-directory: surrealdb.laravel
+
+jobs:
+  tests:
+    name: Tests (PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.4'
+            laravel: '12'
+            testbench: '^10.0'
+          - php: '8.4'
+            laravel: '13'
+            testbench: '^11.0'
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+
+      - name: Checkout SurrealDB Laravel
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          path: surrealdb.laravel
+
+      - name: Checkout Surqlize
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          repository: surrealdb-dev/surqlize.php
+          ref: main
+          path: surqlize.php
+
+      - name: Checkout SurrealDB PHP SDK
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          repository: surrealdb/surrealdb.php
+          ref: v2.0.0-alpha.0
+          path: surrealdb.php
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate Composer metadata
+        run: composer validate --no-check-publish
+
+      - name: Install dependencies
+        run: composer update --with "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-progress --prefer-dist
+
+      - name: Audit dependencies
+        run: composer audit --locked
+
+      - name: Run static analysis
+        run: composer run analyse
+
+      - name: Run unit tests
+        run: |
+          mkdir -p build/logs
+          composer run test -- --log-junit build/logs/phpunit.xml
+
+      - name: Upload PHPUnit report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: phpunit-report-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}
+          path: surrealdb.laravel/build/logs/phpunit.xml
+          if-no-files-found: ignore

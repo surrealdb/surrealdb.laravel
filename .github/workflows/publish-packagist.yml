@@ -1,0 +1,151 @@
+name: Publish to Packagist
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Signed release tag to publish to Packagist.
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-packagist-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  notify-packagist:
+    name: Notify Packagist
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+
+      - name: Checkout release
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ github.event.release.tag_name || github.event.inputs.tag }}
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.4'
+          coverage: none
+          tools: composer:v2
+
+      - name: Verify signed release tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name || github.event.inputs.tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${RELEASE_TAG}" ]]; then
+            echo "No release tag was provided." >&2
+            exit 1
+          fi
+
+          git fetch --force --tags origin "refs/tags/${RELEASE_TAG}:refs/tags/${RELEASE_TAG}"
+
+          tag_type="$(git cat-file -t "${RELEASE_TAG}")"
+          if [[ "${tag_type}" != "tag" ]]; then
+            echo "Release tag ${RELEASE_TAG} is a lightweight tag. Use an annotated signed tag." >&2
+            exit 1
+          fi
+
+          ref_json="$(mktemp)"
+          tag_json="$(mktemp)"
+
+          curl --fail --silent --show-error \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" \
+            --output "${ref_json}"
+
+          tag_sha="$(jq -r '.object.sha' "${ref_json}")"
+          object_type="$(jq -r '.object.type' "${ref_json}")"
+
+          if [[ "${object_type}" != "tag" || -z "${tag_sha}" || "${tag_sha}" == "null" ]]; then
+            echo "Release tag ${RELEASE_TAG} does not point to an annotated tag object." >&2
+            exit 1
+          fi
+
+          curl --fail --silent --show-error \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/tags/${tag_sha}" \
+            --output "${tag_json}"
+
+          verified="$(jq -r '.verification.verified // false' "${tag_json}")"
+          reason="$(jq -r '.verification.reason // "unknown"' "${tag_json}")"
+
+          if [[ "${verified}" != "true" ]]; then
+            echo "Release tag ${RELEASE_TAG} is not verified by GitHub. Verification reason: ${reason}." >&2
+            exit 1
+          fi
+
+          echo "Release tag ${RELEASE_TAG} is signed and verified by GitHub."
+
+      - name: Validate Composer metadata
+        run: composer validate --no-check-publish
+
+      - name: Resolve package metadata
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          package_name="$(php -r '$composer = json_decode(file_get_contents("composer.json"), true, flags: JSON_THROW_ON_ERROR); echo $composer["name"] ?? "";')"
+
+          if [[ -z "${package_name}" ]]; then
+            echo "composer.json does not define a package name." >&2
+            exit 1
+          fi
+
+          echo "name=${package_name}" >> "${GITHUB_OUTPUT}"
+          echo "repository_url=https://github.com/${GITHUB_REPOSITORY}" >> "${GITHUB_OUTPUT}"
+
+      - name: Notify Packagist
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+          REPOSITORY_URL: ${{ steps.package.outputs.repository_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${PACKAGIST_USERNAME}" || -z "${PACKAGIST_TOKEN}" ]]; then
+            echo "Missing PACKAGIST_USERNAME or PACKAGIST_TOKEN repository secret." >&2
+            exit 1
+          fi
+
+          response_file="$(mktemp)"
+          status_code="$(
+            curl --silent --show-error \
+              --output "${response_file}" \
+              --write-out "%{http_code}" \
+              --request POST \
+              --header "Content-Type: application/json" \
+              --data "{\"repository\":{\"url\":\"${REPOSITORY_URL}\"}}" \
+              "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_TOKEN}"
+          )"
+
+          if [[ "${status_code}" -lt 200 || "${status_code}" -ge 300 ]]; then
+            echo "Packagist update failed with HTTP ${status_code}." >&2
+            cat "${response_file}" >&2
+            exit 1
+          fi
+
+          echo "Packagist accepted the update request for ${{ steps.package.outputs.name }}."
