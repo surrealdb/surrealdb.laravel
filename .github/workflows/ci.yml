@@ -1,9 +1,7 @@
-name: Tests
+name: GitHub Actions CI Tests
 
 on:
   pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
@@ -24,8 +22,8 @@ defaults:
     working-directory: surrealdb.laravel
 
 jobs:
-  tests:
-    name: Tests (PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }})
+  ci-tests:
+    name: GitHub Actions CI Tests (PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }})
     runs-on: ubuntu-latest
 
     strategy:
