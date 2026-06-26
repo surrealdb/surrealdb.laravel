@@ -15,7 +15,8 @@
         "php": ">=8.4",
         "illuminate/console": "^11.0 || ^12.0 || ^13.0",
         "illuminate/support": "^11.0 || ^12.0 || ^13.0",
-        "surrealdb/surqlize": "0.0.1-alpha.1"
+        "surrealdb/surqlize": "0.0.1-alpha.2",
+		"surrealdb/surrealdb.php": "2.0.0-alpha.1@alpha"
     },
     "require-dev": {
         "orchestra/testbench": "^10.0 || ^11.0",
@@ -34,6 +35,15 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../surqlize.php",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "config": {
         "sort-packages": true,
         "allow-plugins": {

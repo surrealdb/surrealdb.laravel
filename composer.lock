@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "78ad14a33488f4d11f9ebe0ca20a50cf",
+    "content-hash": "d69b57837d7226282db1fc124874ff46",
     "packages": [
         {
             "name": "brick/math",
@@ -1059,20 +1059,20 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v13.16.1",
+            "version": "v13.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6135650d69bd9442e470bb1b343422081b076f1e"
+                "reference": "0802b7a81f3252d78200b8037ac183a686a529f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6135650d69bd9442e470bb1b343422081b076f1e",
-                "reference": "6135650d69bd9442e470bb1b343422081b076f1e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0802b7a81f3252d78200b8037ac183a686a529f0",
+                "reference": "0802b7a81f3252d78200b8037ac183a686a529f0",
                 "shasum": ""
             },
             "require": {
-                "brick/math": "^0.14.2 || ^0.15 || ^0.16 || ^0.17",
+                "brick/math": "^0.14.2 || ^0.15 || ^0.16 || ^0.17 || ^0.18",
                 "composer-runtime-api": "^2.2",
                 "doctrine/inflector": "^2.0.5",
                 "dragonmantank/cron-expression": "^3.4",
@@ -1279,20 +1279,20 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2026-06-16T16:07:50+00:00"
+            "time": "2026-06-23T19:42:45+00:00"
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.18",
+            "version": "v0.3.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "a19af51bb144bf87f08397921fa619f85c7d4e72"
+                "reference": "7753c65c281c2550c7c183f14e18062073b7d821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/a19af51bb144bf87f08397921fa619f85c7d4e72",
-                "reference": "a19af51bb144bf87f08397921fa619f85c7d4e72",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/7753c65c281c2550c7c183f14e18062073b7d821",
+                "reference": "7753c65c281c2550c7c183f14e18062073b7d821",
                 "shasum": ""
             },
             "require": {
@@ -1336,9 +1336,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.18"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.21"
             },
-            "time": "2026-05-19T00:47:18+00:00"
+            "time": "2026-06-26T00:11:25+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -1592,16 +1592,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.35.0",
+            "version": "3.35.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "d0a405f03d980461e4b6e08cfed2c162650f9f6b"
+                "reference": "f23af6c5aafd958a7593029a271d77baf5ed793c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d0a405f03d980461e4b6e08cfed2c162650f9f6b",
-                "reference": "d0a405f03d980461e4b6e08cfed2c162650f9f6b",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f23af6c5aafd958a7593029a271d77baf5ed793c",
+                "reference": "f23af6c5aafd958a7593029a271d77baf5ed793c",
                 "shasum": ""
             },
             "require": {
@@ -1669,9 +1669,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.35.0"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.35.1"
             },
-            "time": "2026-06-22T20:12:06+00:00"
+            "time": "2026-06-25T06:52:23+00:00"
         },
         {
             "name": "league/flysystem-local",
@@ -3099,16 +3099,16 @@
             "time": "2026-06-18T03:57:49+00:00"
         },
         {
-            "name": "surqlize/surqlize",
-            "version": "dev-main",
+            "name": "surrealdb/surqlize",
+            "version": "0.0.1-alpha.2",
             "dist": {
                 "type": "path",
                 "url": "../surqlize.php",
-                "reference": "6eb0f769cc50e995168c8a5c65e318a26084e51c"
+                "reference": "fdc659c54147eadd248feed9f60a2655c7e40565"
             },
             "require": {
                 "php": ">=8.4",
-                "surrealdb/surrealdb.php": "2.0.0-alpha.0@alpha"
+                "surrealdb/surrealdb.php": "2.0.0-alpha.1@alpha"
             },
             "require-dev": {
                 "phpstan/phpstan": "^2.0",
@@ -3151,11 +3151,17 @@
         },
         {
             "name": "surrealdb/surrealdb.php",
-            "version": "2.0.0-alpha.0",
+            "version": "2.0.0-alpha.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/surrealdb/surrealdb.php.git",
+                "reference": "712c53d13bd95bf91ea4745e79c9e109c201c27e"
+            },
             "dist": {
-                "type": "path",
-                "url": "../surrealdb.php",
-                "reference": "a75f7c6d55747457472c8802aa87fddde75c3ebf"
+                "type": "zip",
+                "url": "https://api.github.com/repos/surrealdb/surrealdb.php/zipball/712c53d13bd95bf91ea4745e79c9e109c201c27e",
+                "reference": "712c53d13bd95bf91ea4745e79c9e109c201c27e",
+                "shasum": ""
             },
             "require": {
                 "brick/math": "^0.12 || ^0.13 || ^0.14 || ^0.17.2",
@@ -3193,32 +3199,7 @@
                     "SurrealDB\\SDK\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "SurrealDB\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse --memory-limit=512M"
-                ],
-                "check": [
-                    "@analyse",
-                    "@test"
-                ],
-                "test": [
-                    "vendor/bin/phpunit --testsuite default"
-                ],
-                "test:openswoole": [
-                    "vendor/bin/phpunit --testsuite openswoole"
-                ],
-                "test:frankenphp": [
-                    "vendor/bin/phpunit --testsuite frankenphp"
-                ],
-                "test:all": [
-                    "vendor/bin/phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -3230,10 +3211,11 @@
                 "surrealdb",
                 "websocket"
             ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/surrealdb/surrealdb.php/issues",
+                "source": "https://github.com/surrealdb/surrealdb.php/tree/v2.0.0-alpha.1"
+            },
+            "time": "2026-06-26T11:00:02+00:00"
         },
         {
             "name": "symfony/clock",
@@ -9206,7 +9188,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "surqlize/surqlize": 20
+        "surrealdb/surrealdb.php": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
