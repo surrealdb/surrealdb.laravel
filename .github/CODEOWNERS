@@ -1,0 +1,46 @@
+# Example CODEOWNERS, taken from surrealdb/surrealdb/.github/CODEOWNERS.
+#
+# Save as `.github/CODEOWNERS` (preferred), `/CODEOWNERS`, or `docs/CODEOWNERS`.
+# Owners must be GitHub teams (e.g. @surrealdb/<team>), not individuals.
+# Last matching rule wins; put broad defaults first, tighten with paths below.
+
+# Default owners for the repository
+* @surrealdb/devex
+
+# Configuration for CI
+/.github/ @surrealdb/ci
+
+# Configuration for deployment
+.dockerignore @surrealdb/ci
+build.rs @surrealdb/ci
+*.nix @surrealdb/ci
+flake.lock @surrealdb/ci
+/.cargo/ @surrealdb/ci
+/.config/ @surrealdb/ci
+/dev/ @surrealdb/ci
+/pkg/ @surrealdb/ci
+Makefile @surrealdb/ci
+Makefile.* @surrealdb/ci
+
+# Configuration for Rust dependencies
+Cargo.lock @surrealdb/security
+Cargo.toml @surrealdb/security
+surrealdb/core/Cargo.toml @surrealdb/security
+surrealdb/Cargo.toml @surrealdb/security
+supply-chain/* @surrealdb/security
+deny.toml @surrealdb/security
+.github/CODEOWNERS @surrealdb/security
+
+# Code for fuzzing configuration
+/fuzz/ @surrealdb/security
+SECURITY.md @surrealdb/security
+
+# AI instruction files (attack surface for prompt injection via PRs)
+CLAUDE.md @surrealdb/security
+AGENTS.md @surrealdb/security
+COPILOT.md @surrealdb/security
+.cursorrules @surrealdb/security
+/.cursor/ @surrealdb/security
+
+# KV Storage Interface
+/surrealdb/core/src/kvs/ @surrealdb/kv
