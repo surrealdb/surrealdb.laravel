@@ -1,0 +1,163 @@
+# Example .github/dependabot.yml for a SurrealDB repo.
+#
+# Save this file as `.github/dependabot.yml` in your repo and uncomment the
+# blocks for the ecosystems your repo actually uses.
+#
+# The `github-actions` block is mandatory for every repo (it keeps SHA-pinned
+# Actions fresh) and is enabled below by default. All other blocks are
+# commented out — uncomment what you need.
+#
+# Pattern note: every block uses
+#     open-pull-requests-limit: 0
+#     groups:
+#       <name>:
+#         applies-to: security-updates
+#         patterns: ["*"]
+# This is the same pattern surrealdb/surrealdb uses. It means Dependabot
+# raises PRs ONLY for security-relevant updates (CVE-driven), not for every
+# minor version bump. If you want all updates (noisier, but you stay closer
+# to upstream), remove the `applies-to: security-updates` line and raise
+# `open-pull-requests-limit` to e.g. 10.
+#
+# Full reference:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # ---------------------------------------------------------------------------
+  # GitHub Actions — MANDATORY for every repo.
+  # Keeps your SHA-pinned `uses:` lines fresh as upstream actions update.
+  # ---------------------------------------------------------------------------
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 0   # security updates only
+    groups:
+      actions:
+        applies-to: security-updates
+        patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Rust (cargo)
+  # Uncomment if your repo has Cargo.toml at the root (or change `directory`).
+  # For a workspace with multiple crates, one block per workspace root is
+  # usually enough — Dependabot follows workspace members.
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "cargo"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     rust:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Go (gomod)
+  # Uncomment if your repo has go.mod at the root.
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "gomod"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     go:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # npm / pnpm / yarn — `npm` ecosystem covers all three.
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     node:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Python — pick ONE: `pip` (requirements.txt / setup.py), `pip` works for
+  # poetry too if there's a generated requirements.txt; for `uv` use `pip`
+  # against the lockfile-derived requirements.
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     python:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Docker — for FROM-line base-image bumps.
+  # If your Dockerfile lives in a subdirectory, change `directory`.
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     docker:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Terraform
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "terraform"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     terraform:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Helm
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "helm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     helm:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # Git submodules
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "gitsubmodule"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     submodules:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
+
+  # ---------------------------------------------------------------------------
+  # devcontainers
+  # ---------------------------------------------------------------------------
+  # - package-ecosystem: "devcontainers"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "daily"
+  #   open-pull-requests-limit: 0
+  #   groups:
+  #     devcontainers:
+  #       applies-to: security-updates
+  #       patterns: ["*"]
