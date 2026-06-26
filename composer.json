@@ -14,7 +14,7 @@
         "php": ">=8.4",
         "illuminate/console": "^11.0 || ^12.0 || ^13.0",
         "illuminate/support": "^11.0 || ^12.0 || ^13.0",
-        "surqlize/surqlize": "dev-main"
+        "surrealdb/surqlize": "0.0.1-alpha.1"
     },
     "require-dev": {
         "orchestra/testbench": "^10.0 || ^11.0",
@@ -31,29 +31,6 @@
             "SurrealDB\\Laravel\\Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../surqlize.php",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "../surrealdb.php",
-            "options": {
-                "symlink": true,
-                "versions": {
-                    "surrealdb/surrealdb.php": "2.0.0-alpha.0"
-                }
-            }
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/surrealdb/surrealdb.php"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
