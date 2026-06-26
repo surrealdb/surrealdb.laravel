@@ -3,6 +3,7 @@
     "description": "Laravel integration for the SurrealDB PHP SDK and Surqlize ORM.",
     "type": "library",
     "license": "Apache-2.0",
+	"version": "0.0.1-alpha.1",
     "keywords": [
         "surrealdb",
         "laravel",
