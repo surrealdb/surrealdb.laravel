@@ -3104,7 +3104,7 @@
             "dist": {
                 "type": "path",
                 "url": "../surqlize.php",
-                "reference": "fdc659c54147eadd248feed9f60a2655c7e40565"
+                "reference": "38e73a88cd0bce2bf7e3dcf0da954b426b81ae01"
             },
             "require": {
                 "php": ">=8.4",
