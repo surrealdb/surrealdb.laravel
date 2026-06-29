@@ -9,7 +9,7 @@ This package gives Laravel applications a publishable configuration file, servic
 | Requirement | Version |
 | --- | --- |
 | PHP | `>=8.4` |
-| Laravel components | `^11.0 || ^12.0 || ^13.0` |
+| Laravel components | `^11.0`, `^12.0` or `^13.0` |
 | Surqlize | `surqlize/surqlize` `dev-main` |
 | SurrealDB PHP SDK | `surrealdb/surrealdb.php` `2.0.0-alpha.0` |
 
